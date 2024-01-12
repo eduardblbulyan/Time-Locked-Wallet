@@ -16,7 +16,7 @@ contract TimeLockedWallet{
         require(block.timestamp >= unlockTime,"Not yet");
         _;
     }
-    constructor(address _owner, uint256 _unlockTime){
+    constructor(address _owner, uint256 _unlockTime)payable{
         owner = _owner;
         unlockTime = _unlockTime+block.timestamp;
     }
@@ -25,7 +25,7 @@ contract TimeLockedWallet{
         balance += msg.value;
         emit Deposit(msg.sender, msg.value);
     }
-    function withdraw() external onlyAfter onlyOwner{
+    function withdraw() external payable onlyAfter onlyOwner{
         require(balance>0,"No funds available");
         payable(owner).transfer(balance);
         emit Withdrawal(owner, balance);
