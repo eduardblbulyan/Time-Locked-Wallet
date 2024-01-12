@@ -20,5 +20,15 @@ contract TimeLockedWallet{
         owner = _owner;
         unlockTime = _unlockTime;
     }
-    
+    function deposit() external payable onlyOwner{
+        require(msg.value>0,"Value must be greater than 0");
+        balance += msg.value;
+        emit Deposit(msg.sender, msg.value);
+    }
+    function withdraw() external onlyAfter onlyOwner{
+        require(balance>0,"No funds available");
+        payable(owner).transfer(balance);
+        emit Withdrawal(owner, balance);
+        balance = 0;
+    }
 }
