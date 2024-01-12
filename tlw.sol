@@ -16,5 +16,9 @@ contract TimeLockedWallet{
         require(block.timestamp >= unlockTime,"Not yet");
         _;
     }
+    constructor(address _owner, uint256 _unlockTime){
+        owner = _owner;
+        unlockTime = _unlockTime;
+    }
     
 }
